@@ -7,6 +7,7 @@ using Dima.Core.Requests.Categories;
 using Dima.Core.Responses;
 using Microsoft.AspNetCore.Http.HttpResults;
 using System.Reflection.Metadata.Ecma335;
+using System.Security.Claims;
 
 namespace Dima.Api.EndPoints.Categories;
 
@@ -22,8 +23,9 @@ public class CreateCategoryEndPoint : IEndPoint
             .Produces<Response<Category?>>();
     }
 
-    public static async Task<IResult> HandleAsync(CreateCategoryRequest request,ICategoryHandler handler) 
+    public static async Task<IResult> HandleAsync(ClaimsPrincipal user,CreateCategoryRequest request,ICategoryHandler handler) 
     {
+        request.UserId = user.Identity?.Name ?? string.Empty;
         var response = await handler.CreateCategoryAsync(request);
         return response.IsSuccess ? Results.Created($"/{response.Data?.Id}", response) : Results.BadRequest(response);
     }
