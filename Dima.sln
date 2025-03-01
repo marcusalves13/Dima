@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dima.Core", "Dima.Core\Dima
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dima.Api", "Dima.Api\Dima.Api.csproj", "{7EF56D17-AC2F-427F-BEB2-603FCBB8E82A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dima.Web", "Dima.Web\Dima.Web.csproj", "{434488E0-2228-436A-8E9A-AFCD71955420}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,8 +23,15 @@ Global
 		{7EF56D17-AC2F-427F-BEB2-603FCBB8E82A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7EF56D17-AC2F-427F-BEB2-603FCBB8E82A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7EF56D17-AC2F-427F-BEB2-603FCBB8E82A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{434488E0-2228-436A-8E9A-AFCD71955420}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{434488E0-2228-436A-8E9A-AFCD71955420}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{434488E0-2228-436A-8E9A-AFCD71955420}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{434488E0-2228-436A-8E9A-AFCD71955420}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B7EA1692-F54A-4E2B-9413-C27AC4FBBBA2}
 	EndGlobalSection
 EndGlobal
