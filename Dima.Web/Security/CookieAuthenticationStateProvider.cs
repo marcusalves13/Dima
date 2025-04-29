@@ -19,7 +19,7 @@ public class CookieAuthenticationStateProvider(IHttpClientFactory clientFactory)
     {
         _isAuthenticated = false;
         var user = new ClaimsPrincipal(new ClaimsIdentity());
-        var userInfo = GetUser().Result;
+        var userInfo = await GetUser();
         if (userInfo is null)
         {
             return new AuthenticationState(user);
@@ -58,7 +58,7 @@ public class CookieAuthenticationStateProvider(IHttpClientFactory clientFactory)
 
         claims.AddRange(user.
                         Claims.
-                        Where(x => x.Key != ClaimTypes.Name & x.Key != ClaimTypes.Email).
+                        Where(x => x.Key != ClaimTypes.Name && x.Key != ClaimTypes.Email).
                         Select(x=> new Claim(x.Key,x.Value))
         );
 
