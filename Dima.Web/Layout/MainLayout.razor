@@ -2,18 +2,29 @@
 
 <MudThemeProvider @ref="_mudThemeProvider" @bind-IsDarkMode="_IsDarkMode" Theme="Configuration.Theme" />
 <MudSnackbarProvider />
-<MudLayout>
-    <MudAppBar>
-        Dima
-        <MudSpacer/>
-        <MudSwitch @bind-Value="_IsDarkMode"></MudSwitch>
-    </MudAppBar>
-    <MudMainContent>
-        <MudContainer>
-            @Body
-        </MudContainer>
-    </MudMainContent>
-</MudLayout>
+<AuthorizeView>
+    <Authorized>
+        <MudLayout>
+            <MudAppBar>
+                Dima
+                <MudSpacer />
+                <MudText Typo="Typo.caption">
+                    @context.User.Identity?.Name
+                </MudText>
+                <MudSwitch @bind-Value="_IsDarkMode"></MudSwitch>
+            </MudAppBar>
+            <MudMainContent>
+                <MudContainer>
+                    @Body
+                </MudContainer>
+            </MudMainContent>
+        </MudLayout>
+    </Authorized>
+    <NotAuthorized>
+        <LoginRedirect></LoginRedirect>
+    </NotAuthorized>
+</AuthorizeView>
+
 
 @code{
     private bool _IsDarkMode = true;
