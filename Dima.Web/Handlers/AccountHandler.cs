@@ -1,10 +1,8 @@
 ﻿using Dima.Core.Handlers;
-using Dima.Core.Requests;
 using Dima.Core.Requests.Account;
 using Dima.Core.Responses;
 using System.Net.Http.Json;
 using System.Text;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Dima.Web.Handlers;
 

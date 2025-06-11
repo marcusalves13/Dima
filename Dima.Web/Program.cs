@@ -17,6 +17,8 @@ builder.Services.AddScoped<AuthenticationStateProvider,CookieAuthenticationState
 builder.Services.AddScoped(x=> (ICookieAuthenticationStateProvider)x.GetRequiredService<AuthenticationStateProvider>());
 builder.Services.AddMudServices();
 builder.Services.AddTransient<IAccountHandler,AccountHandler>();
+builder.Services.AddTransient<ICategoryHandler,CategoryHandler>();
+builder.Services.AddTransient<ITransactionHandler,TransactionHandler>();
 builder.Services.AddHttpClient(Configuration.HttpClientName, 
     opt => {
         opt.BaseAddress = new Uri(Configuration.BackendUrl);
