@@ -1,34 +1,50 @@
-﻿using Dima.Core.Handlers;
+﻿using Dima.Core.Extensions;
+using Dima.Core.Handlers;
 using Dima.Core.Models;
 using Dima.Core.Requests.Transactions;
 using Dima.Core.Responses;
+using System.Net.Http.Json;
 
 namespace Dima.Web.Handlers;
 
-public class TransactionHandler : ITransactionHandler
+public class TransactionHandler(IHttpClientFactory httpClientFactory) : ITransactionHandler
 {
-    public Task<Response<Transaction>> CreateAsync(CreateTransactionRequest request)
+    private readonly HttpClient _client = httpClientFactory.CreateClient(Configuration.HttpClientName);
+
+    public async Task<Response<Transaction?>> CreateAsync(CreateTransactionRequest request)
     {
-        throw new NotImplementedException();
+        var result = await _client.PostAsJsonAsync("v1/transactions", request);
+        return await result.Content.ReadFromJsonAsync<Response<Transaction?>>()
+                      ?? new Response<Transaction?>(null, 400, "Falha ao criar transação.");
     }
 
-    public Task<Response<Transaction>> DeleteAsync(DeleteTransactionRequest request)
+    public async Task<Response<Transaction?>> DeleteAsync(DeleteTransactionRequest request)
     {
-        throw new NotImplementedException();
+        var result = await _client.DeleteAsync($"v1/transactions/{request.Id}");
+        return await result.Content.ReadFromJsonAsync<Response<Transaction?>>()
+                     ?? new Response<Transaction?>(null, 400, "Falha ao excluir transação.");
     }
 
-    public Task<Response<Transaction>> GetByIdAsync(GetTransactionByIdRequest request)
+    public async Task<Response<Transaction?>> GetByIdAsync(GetTransactionByIdRequest request)
     {
-        throw new NotImplementedException();
+        var result = await _client.GetFromJsonAsync<Response<Transaction?>>($"v1/transactions/{request.Id}");
+        return result ?? new Response<Transaction?>(null, 400, "Falha ao retornar transação.");
     }
 
-    public Task<PagedResponse<List<Transaction>?>> GetByPeriodAsync(GetTransactionByPeriodRequest request)
+    public async Task<PagedResponse<List<Transaction>?>> GetByPeriodAsync(GetTransactionByPeriodRequest request)
     {
-        throw new NotImplementedException();
+        var format= "yyyy-MM-dd";
+        var startDate = request.StartDate?.ToString(format) ?? DateTime.Now.GetFirstDay().ToString(format);
+        var endDate = request.EndDate?.ToString(format) ?? DateTime.Now.GetLastDay().ToString(format);
+        var url = $"v1/transactions?startDate={startDate}&endDate={endDate}";
+        var result = await _client.GetFromJsonAsync<PagedResponse<List<Transaction>?>>(url);
+        return result ?? new PagedResponse<List<Transaction>?>(null, 400, "Falha ao retornar transações.");
     }
 
-    public Task<Response<Transaction>> UpdateAsync(UpdateTransactionRequest request)
+    public async Task<Response<Transaction?>> UpdateAsync(UpdateTransactionRequest request)
     {
-        throw new NotImplementedException();
+        var result = await _client.PutAsJsonAsync($"v1/transactions{request.Id}", request);
+        return await result.Content.ReadFromJsonAsync<Response<Transaction?>>()
+                     ?? new Response<Transaction?>(null, 400, "Falha ao atualizar transação.");
     }
 }
