@@ -1,15 +1,16 @@
 ﻿using Dima.Core.Handlers;
+using Dima.Core.Models;
 using Dima.Core.Requests.Categories;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
 namespace Dima.Web.Pages.Categories;
 
-public partial class CreateCategoryPage:ComponentBase
+public partial class ListCategoriesPage:ComponentBase
 {
     #region Properties
     public bool IsBusy { get; set; } = false;
-    public CreateCategoryRequest InputModel { get; set; } = new();
+    public List<Category> Categories { get; set; } = [];
     #endregion
 
     #region Services
@@ -24,21 +25,18 @@ public partial class CreateCategoryPage:ComponentBase
     #endregion
 
     #region Methods
-    protected async Task OnvalidSubmitAsync()
+
+    protected override async Task OnInitializedAsync()
     {
         IsBusy = true;
         try
         {
-            var result = await Handler.CreateCategoryAsync(InputModel);
+            var request = new GetAllCategoriesRequest();
+            var result = await Handler.GetAllAsync(request);
             if (result.IsSuccess)
-            {
-                Snackbar.Add("Categoria criada com sucesso!", Severity.Success);
-                NavigationManager.NavigateTo("/categorias");
-            }
+                Categories = result.Data ?? [];
             else
-            {
-                Snackbar.Add(result.Message!, Severity.Error);   
-            }
+                Snackbar.Add(result.Message!, Severity.Error);
         }
         catch (Exception ex)
         {
@@ -48,7 +46,7 @@ public partial class CreateCategoryPage:ComponentBase
         {
             IsBusy = false;
         }
-    }   
+    }
 
     #endregion
 }
