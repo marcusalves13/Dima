@@ -11,6 +11,7 @@ public partial class ListCategoriesPage:ComponentBase
     #region Properties
     public bool IsBusy { get; set; } = false;
     public List<Category> Categories { get; set; } = [];
+    public string Search { get; set; } = string.Empty;
     #endregion
 
     #region Services
@@ -47,6 +48,23 @@ public partial class ListCategoriesPage:ComponentBase
             IsBusy = false;
         }
     }
+
+    public Func<Category, bool> Filter => category =>
+    {
+        if (string.IsNullOrWhiteSpace(Search))
+            return true;
+
+        if (category.Title.Contains(Search, StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        if (category.Id.ToString().Contains(Search, StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        if (category.Description is not null && category.Description.Contains(Search, StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        return false;
+    };
 
     #endregion
 }

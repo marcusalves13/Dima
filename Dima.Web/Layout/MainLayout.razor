@@ -2,6 +2,7 @@
 
 <MudThemeProvider @ref="_mudThemeProvider" @bind-IsDarkMode="_IsDarkMode" Theme="Configuration.Theme" />
 <MudSnackbarProvider />
+<MudPopoverProvider />
 <AuthorizeView>
     <Authorized>
         <MudLayout>
@@ -21,7 +22,7 @@
                 <NavMenu></NavMenu>
             </MudDrawer>
             <MudMainContent>
-                <MudContainer>
+                <MudContainer Class="mt-4">
                     @Body
                 </MudContainer>
             </MudMainContent>
